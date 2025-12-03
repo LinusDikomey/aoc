@@ -1,22 +1,26 @@
 
-Dir :: enum  { L,R }
+Dir :: enum {
+  L
+  R
+}
 
 main :: fn {
   input_text := std.file.read_to_string("input/day1.txt")
-  handle_line :: fn(line str) -> i32 {
-    dir := line.slice(0, 1)
-    count := line.slice(1, line.len)
-    ret (match dir {
-      "L": -1,
-      "R": 1,
-    }) * count.parse()
-  }
+  input := collect(
+    map(
+      input_text.split("\n")
+      fn(line str) {
+        dir := line.slice(0, 1)
+        count := line.slice(1, line.len)
+        ret (match dir {
+          "L": -1,
+          "R": 1,
+        }) * count.parse()
+      }
+    )
+  )
 
-  input := List.new()
-  for line in input_text.split("\n") {
-    input.push(handle_line(line))
-  }
-  print("Day 1, Part 1: ")
+  print("Part 1: ")
   dial := 50
   count := 0
   for x in input.iter() {
